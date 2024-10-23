@@ -116,7 +116,7 @@ const Quiz = () => {
             <Progress
               percent={50}
               status="success"
-              success={{ percent: 50, strokeColor: "red" }}
+              success={{ percent: 50, strokeColor: "green" }}
             />
           </div>
           <div className="my-5 text-base font-medium">

@@ -154,7 +154,9 @@ const Quiz = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="absolute right-2 bottom-0 font-semibold text-base bg-red-400/60 py-2 px-3 rounded-lg cursor-pointer flex items-center justify-center"
+            className={`absolute right-2 bottom-0 font-semibold text-base ${
+              hintShowing ? "bg-red-400/60" : "bg-red-400/90"
+            }  py-2 px-3 rounded-lg cursor-pointer flex items-center justify-center`}
           >
             {hintShowing ? "Turn Off Hint" : "Show Hints"}
           </motion.button>

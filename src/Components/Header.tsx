@@ -1,3 +1,4 @@
+import { Tooltip } from "antd";
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -8,13 +9,10 @@ const Header = () => {
       </h1>
       <nav className="flex justify-between w-1/5 items-center">
         <Link to="/" className="text-lg font-bold ">
-          Home
+          <Tooltip title="Already home">Home</Tooltip>
         </Link>
         <Link to="settings" className="text-lg font-bold ">
           Get Started
-        </Link>
-        <Link to="" className=" font-bold text-3xl">
-          Q
         </Link>
       </nav>
     </header>

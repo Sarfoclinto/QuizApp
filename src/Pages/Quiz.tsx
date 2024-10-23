@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
-import { Collapse, Form, Input, Modal, Progress } from "antd";
+import { Collapse, Form, Input, Modal, Progress, Tooltip } from "antd";
 import CollapsePanel from "antd/es/collapse/CollapsePanel";
 import useQuizData from "../Hooks/useQuizData";
 import { useState } from "react";
 import type { ProgressProps } from "antd";
+import { useNavigate } from "react-router-dom";
+import { MdOutlineRefresh } from "react-icons/md";
 
 interface QuestionTypes {
   category: string;
@@ -23,10 +25,17 @@ const twoColors: ProgressProps["strokeColor"] = {
 const Quiz = () => {
   const { quizList, isLoading, error, sessionQuizData } = useQuizData();
   const [modalOpen, setModalOpen] = useState(false);
-  //const [len, setLen] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [hintShowing, setHintShowing] = useState(false);
+  const navigate = useNavigate();
   console.log(quizList);
+
+  const [form] = Form.useForm();
+  const onOk = () => {
+    form.resetFields();
+    setCorrect(0);
+    navigate("/");
+  };
 
   if (!sessionQuizData && isLoading) {
     return (
@@ -61,29 +70,67 @@ const Quiz = () => {
     setCorrect(marks);
     setModalOpen(true);
   };
+
   const toggleHint = (e) => {
     e.preventDefault();
     setHintShowing(!hintShowing);
   };
-
+  let score = Math.ceil((correct / quizList.length) * 100);
+  const onRefresh = () => {
+    form.resetFields();
+    setCorrect(0);
+    score = 0;
+    setModalOpen(false);
+  };
   return (
     <div className=" h-dvh overflow-auto">
-      <Modal open={modalOpen} onCancel={() => setModalOpen(false)}>
-        <Progress
-          className="my-5"
-          percent={50}
-          status="exception"
-          success={{ percent: 50, strokeColor: "red" }}
-        />
-        <Progress
-          className="my-5"
-          strokeColor={twoColors}
-          // success={{ percent: 50, strokeColor: "green" }}
-          percent={Math.ceil((correct / quizList.length) * 100)}
-        />
+      <Modal
+        open={modalOpen}
+        onOk={onOk}
+        onCancel={() => setModalOpen(false)}
+        title={<span>Marks Dashboard</span>}
+      >
+        {score >= 50 ? (
+          <motion.div className="flex items-center justify-center gap-x-2">
+            <img src="src/assets/won.gif" alt="victoryimage" />
+            <p className="text-lg font-semibold">Passed</p>
+          </motion.div>
+        ) : (
+          <motion.div className="flex items-center justify-center gap-x-2">
+            <img src="src/assets/loss.gif" alt="lossimage" />
+            <p className="text-lg font-semibold">
+              Oops! Looks like you could't make it
+            </p>
+            <button className="btn btn-circle btn-ghost " onClick={onRefresh}>
+              <Tooltip title="Retry">
+                <MdOutlineRefresh size={20} />
+              </Tooltip>
+            </button>
+          </motion.div>
+        )}
+        <>
+          <div className="my-5 text-base font-medium">
+            <p>
+              <span>50%</span> Passmark:
+            </p>
+            <Progress
+              percent={50}
+              status="success"
+              success={{ percent: 50, strokeColor: "red" }}
+            />
+          </div>
+          <div className="my-5 text-base font-medium">
+            <p>Marks attained: {`${correct}/${quizList.length}`}</p>
+            <Progress
+              strokeColor={twoColors}
+              percent={Math.ceil((correct / quizList.length) * 100)}
+            />
+          </div>
+        </>
       </Modal>
 
       <Form
+        form={form}
         onFinish={onFinish}
         className="h-[calc(100dvh-50px)] overflow-auto relative"
       >
@@ -163,8 +210,11 @@ const Quiz = () => {
             </CollapsePanel>
           ))}
         </Collapse>
-        <p className="right-1/2 fixed bottom-0">
-          <button className="btn" type="submit">
+        <p className="text-center fixed bottom-2 w-full">
+          <button
+            className="btn btn-primary px-10 w-1/3 font-bold text-lg"
+            type="submit"
+          >
             Submit
           </button>
         </p>

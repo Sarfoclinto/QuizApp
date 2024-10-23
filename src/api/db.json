@@ -1,0 +1,46 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "questions": "Whats your name"
+    },
+    {
+      "id": 2,
+      "questions": "Whats your age"
+    },
+    {
+      "id": 3,
+      "questions": "Whats your mother's name"
+    },
+    {
+      "id": 4,
+      "questions": "Whats your sister's name"
+    },
+    {
+      "id": 5,
+      "questions": "Whats your nick name"
+    }
+  ],
+  "answers": [
+    {
+      "id": 1,
+      "answer": "clinton"
+    },
+    {
+      "id": 2,
+      "answer": "20"
+    },
+    {
+      "id": 3,
+      "answer": "Dorothy"
+    },
+    {
+      "id": 4,
+      "answer": "Ama"
+    },
+    {
+      "id": 5,
+      "answer": "HecSherlock"
+    }
+  ]
+}

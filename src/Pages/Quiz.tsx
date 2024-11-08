@@ -55,7 +55,12 @@ const Quiz = () => {
     );
   }
 
-  const onFinish = (values) => {
+  type valuesProp = {
+    [key: string]: string;
+  }
+
+  const onFinish = (values:valuesProp) => {
+    console.log(values);
     const answers = values;
     let marks = 0;
     const { length } = quizList;
@@ -71,7 +76,7 @@ const Quiz = () => {
     setModalOpen(true);
   };
 
-  const toggleHint = (e) => {
+  const toggleHint = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setHintShowing(!hintShowing);
   };
